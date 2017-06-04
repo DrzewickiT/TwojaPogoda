@@ -3,10 +3,7 @@
 <suite name="TestSuite" verbose="1" parallel="false" >
     <test name="Main" >
         <classes>
-            <class name="MainTest">
-                <methods>
-                    <include name="test"></include>
-                </methods>
+            <class name="TestHomepage">
             </class>
         </classes>
     </test>

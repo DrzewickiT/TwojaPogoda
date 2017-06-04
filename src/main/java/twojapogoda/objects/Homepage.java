@@ -43,5 +43,5 @@ public class Homepage {
         return cities.indexOf(getCity());
     }
 
-    
+
 }

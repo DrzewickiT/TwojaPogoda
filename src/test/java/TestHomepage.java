@@ -1,10 +1,10 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import twojapogoda.objects.Homepage;
 
 import java.util.concurrent.TimeUnit;
@@ -14,8 +14,6 @@ public class TestHomepage {
     WebDriver driver;
 
     Homepage homepage;
-
-    SoftAssert softAssert = new SoftAssert();
 
     @BeforeTest
     public void setup() {
@@ -33,13 +31,22 @@ public class TestHomepage {
     }
 
     @Test(dataProvider = "DaysIndexProvider")
-    public void test_temperature_match(int daysIndex) {
+    public void testTemperatureValuesMatch(int daysIndex) {
         homepage.selectDay(daysIndex);
         String infoBoxTemperature = homepage.getInfoBoxTemperature(daysIndex) + ' ' + homepage.getInfoBoxTemperatureUnit(daysIndex);
-        softAssert.assertEquals(infoBoxTemperature, homepage.getTopMapTemperature(homepage.mapTopIndex));
-        softAssert.assertEquals(homepage.getInfoBoxImageSource(daysIndex), homepage.getTopMapImageSource(homepage.mapTopIndex));
-        softAssert.assertEquals(homepage.getInfoBoxImageTitle(daysIndex), homepage.getTopMapImageTitle(homepage.mapTopIndex));
-        softAssert.assertAll();
+        Assert.assertEquals(infoBoxTemperature, homepage.getTopMapTemperature(homepage.mapTopIndex));
+    }
+
+    @Test(dataProvider = "DaysIndexProvider")
+    public void testImageSourceValuesMatch(int daysIndex) {
+        homepage.selectDay(daysIndex);
+        Assert.assertEquals(homepage.getInfoBoxImageSource(daysIndex), homepage.getTopMapImageSource(homepage.mapTopIndex));
+    }
+
+    @Test(dataProvider = "DaysIndexProvider")
+    public void testImageTitleValuesMatch(int daysIndex) {
+        homepage.selectDay(daysIndex);
+        Assert.assertEquals(homepage.getInfoBoxImageTitle(daysIndex), homepage.getTopMapImageTitle(homepage.mapTopIndex));
     }
 
     @AfterTest
